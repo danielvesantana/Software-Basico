@@ -104,6 +104,26 @@ static bool isBareExpression(const string& s){
     return regex_match(t, exprOnly);
 }
 
+// ---------- helper para imprimir erros (arquivo ou tela) ----------
+static void renderErrors(ostream& os, const vector<ErrorItem>& errs){
+    os << "\n=== ERROS ===\n";
+    if(errs.empty()){
+        os << "(nenhum)\n";
+        return;
+    }
+    // imprimir ordenado por linha (estável)
+    vector<ErrorItem> sorted = errs;
+    stable_sort(sorted.begin(), sorted.end(),
+        [](const ErrorItem& a, const ErrorItem& b){
+            return a.lineNo < b.lineNo;
+        });
+    for(const auto& e: sorted){
+        if(e.lineNo>0) os << "[linha " << e.lineNo << "] ";
+        else           os << "[apos leitura] ";
+        os << e.type << ": " << e.msg << "\n";
+    }
+}
+
 // parser de linha
 Parsed parseLine(const string& line, int lineNo){
     Parsed P;
@@ -342,22 +362,14 @@ int main(int argc, char** argv){
         }
     }
 
-    o << "\n=== ERROS ===\n";
-    if(errors.empty()){
-        o << "(nenhum)\n";
-    }else{
-        stable_sort(errors.begin(), errors.end(),
-            [](const ErrorItem& a, const ErrorItem& b){
-                return a.lineNo < b.lineNo;
-            });
-        for(const auto& e: errors){
-            if(e.lineNo>0) o << "[linha " << e.lineNo << "] ";
-            else           o << "[apos leitura] ";
-            o << e.type << ": " << e.msg << "\n";
-        }
-    }
-
+    // ---- ERROS (arquivo) ----
+    renderErrors(o, errors);
     o.close();
+
+    // ---- ERROS (tela) ----
+    renderErrors(cout, errors);
+    cout.flush();
+
     cout << "Gerado: " << outO1 << "\n";
     return 0;
 }
