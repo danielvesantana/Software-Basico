@@ -203,14 +203,17 @@ void segunda_passagem(unordered_map<string, int>& tabelaMNT, unordered_map<strin
     pre_processado.close();
 }
 
-int main(){
+int main(int argc, char* argv[]){
     unordered_map<string, int> tabelaMNT;
     unordered_map<string, vector<string>> tabelaMDT;
     string filename;
 
-    cout << "Nome do arquivo que sera lido: ";
-    cin >> filename;
+    if (argc != 2) {
+        cout << "Uso: ./pre_processador.out <arquivo.asm>\n";
+        return 1;
+    }
 
+    filename = argv[1];
     ifstream arquivo(filename);
     if(arquivo.is_open()){
         primeira_passagem(tabelaMNT, tabelaMDT, arquivo);
