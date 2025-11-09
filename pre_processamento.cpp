@@ -135,10 +135,10 @@ string troca_argumentos(string linha_escopo, string linha_chamada){
     return linha_escopo;
 }
 
-void segunda_passagem(unordered_map<string, int>& tabelaMNT, unordered_map<string, vector<string>>& tabelaMDT, ifstream& arquivo, string filename){
+void segunda_passagem(unordered_map<string, int>& tabelaMNT, unordered_map<string, vector<string>>& tabelaMDT, ifstream& arquivo, string filename, string saida){
     string linha;
     ofstream pre_processado;
-    pre_processado.open("pre_processado.pre");
+    pre_processado.open(saida);
 
     arquivo.clear();
     arquivo.seekg(0);
@@ -209,9 +209,14 @@ int main(int argc, char* argv[]){
     string filename;
 
     if (argc != 2) {
-        cout << "Uso: ./pre_processador.out <arquivo.asm>\n";
+        cout << "Uso: ./pre_processador <arquivo.asm>\n";
         return 1;
     }
+
+    string entrada = argv[1];
+    size_t pos = entrada.find_last_of('.');
+    string base = (pos == string::npos) ? entrada : entrada.substr(0, pos);
+    string saida = base + ".pre";
 
     filename = argv[1];
     ifstream arquivo(filename);
@@ -220,7 +225,7 @@ int main(int argc, char* argv[]){
         arquivo.close();
 
         arquivo.open(filename);
-        segunda_passagem(tabelaMNT, tabelaMDT, arquivo, filename);
+        segunda_passagem(tabelaMNT, tabelaMDT, arquivo, filename, saida);
     }else{
         cout << "nao foi possivel abrir o arquivo\n";
     }
