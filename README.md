@@ -88,10 +88,10 @@ Compilador: g++
 
 Ambiente alvo: Linux, Windows
 
-## Repositório do projeto:
-[text](https://github.com/danielvesantana/Software-Basico)
-
 Organização modular:
 
 cada etapa do processo (pré-processamento, 1ª passagem, 2ª passagem) em um arquivo separado.
+
+## Repositório do projeto:
+[text](https://github.com/danielvesantana/Software-Basico)
 
