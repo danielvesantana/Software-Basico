@@ -1,6 +1,7 @@
 *build/
 *pre_processado.pre
 *pre_processado.o1
+*pre_processado.o2
 *.o
 *.exe
 *.out
