@@ -55,7 +55,7 @@
 
 ## Como Compilar e Executar
 
-### 1. Compilar o compilador
+### 1. Executar o compilador
 
 Na pasta do projeto:
 
